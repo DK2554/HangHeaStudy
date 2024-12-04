@@ -20,11 +20,10 @@ public final class ResponseBuilder {
     public static ResponseEntity<Map<String, Object>> build(Map<String, Object> resMap, HttpStatus httpStatus) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set(HEADER_CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE + CHARSET_UTF8);
-        Map<String, Object> httpBody = new HashMap<String, Object>();
-        httpBody.put("timestamp", System.currentTimeMillis());
-        httpBody.put("resCode", "0000");
-        httpBody.put("resMsg", "success");
-        httpBody.put("resData", resMap);
-        return new ResponseEntity<Map<String, Object>>(httpBody, httpHeaders, httpStatus);
+        Map<String, Object> httpBody = new HashMap<>();
+        httpBody.put("resultCode", "0000");
+        httpBody.put("resultMsg", "SUCCESS");
+        httpBody.put("resultData", resMap);
+        return new ResponseEntity<>(httpBody, httpHeaders, httpStatus);
     }
 }
