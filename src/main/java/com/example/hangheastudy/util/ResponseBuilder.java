@@ -17,7 +17,7 @@ public final class ResponseBuilder {
         throw new UnsupportedOperationException();
     }
 
-    public static ResponseEntity<Map<String, Object>> build(Map<String, Object> resMap, HttpStatus httpStatus) {
+    public static ResponseEntity<Map<String, Object>> build(Object resMap, HttpStatus httpStatus) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set(HEADER_CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE + CHARSET_UTF8);
         Map<String, Object> httpBody = new HashMap<>();
