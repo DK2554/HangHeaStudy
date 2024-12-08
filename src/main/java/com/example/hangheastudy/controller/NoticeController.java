@@ -28,9 +28,9 @@ public class NoticeController {
         return ResponseBuilder.build(noticeService.getNotice(id), HttpStatus.OK);
     }
 
-    @PostMapping("/api/notice/{id}")
-    public ResponseEntity<Map<String, Object>> postNotice (HttpServletRequest request){
-        return ResponseBuilder.build(new HashMap<>(), HttpStatus.OK);
+    @PostMapping("/api/notice")
+    public ResponseEntity<Map<String, Object>> postNotice (@RequestBody NoticeDto noticeDto){
+        return ResponseBuilder.build(noticeService.postNotice(noticeDto), HttpStatus.OK);
     }
 
     @PutMapping("/api/notice/{id}")

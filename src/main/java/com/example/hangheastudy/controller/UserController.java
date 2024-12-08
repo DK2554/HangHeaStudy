@@ -21,6 +21,8 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
 
+
+
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @PostMapping("/api/auth/login")
     public ResponseEntity<Map<String, Object>> login (@RequestBody UserDto userDto){
@@ -29,8 +31,8 @@ public class UserController {
     }
 
     @PostMapping("/api/auth/sigup")
-    public ResponseEntity<Map<String, Object>> sigup (HttpServletRequest request){
-        return ResponseBuilder.build(new HashMap<>(), HttpStatus.OK);
+    public ResponseEntity<Map<String, Object>> sigup (@RequestBody UserDto userDto){
+        return ResponseBuilder.build(userService.sigup(userDto), HttpStatus.OK);
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.hangheastudy.service;
 import com.example.hangheastudy.dto.NoticeDto;
 import com.example.hangheastudy.entity.Notice;
 import com.example.hangheastudy.repository.NoticeRepository;
+import com.example.hangheastudy.util.UserContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ public class NoticeService {
     }
 
     public NoticeDto getNotice(Long id) {
+        String currentUser = UserContext.getUser(); // 현재 사용
         Notice notice = noticeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Notice not found"));
         return NoticeDto
@@ -31,13 +33,14 @@ public class NoticeService {
                 .noticeContent(notice.getNoticeContent())
                 .noticeTitle(notice.getNoticeTitle())
                 .regDt(notice.getRegDt())
-                .regId(notice.getRegId())
+                .regId(currentUser)
                 .build();
 
     }
 
     @Transactional
     public NoticeDto updateNotice(Long id, NoticeDto noticeDto) {
+        String currentUser = UserContext.getUser(); // 현재 사용
         Notice notice = noticeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Notice not found"));
 
@@ -52,8 +55,8 @@ public class NoticeService {
                 .noticeContent(notice.getNoticeContent())
                 .noticeTitle(notice.getNoticeTitle())
                 .regDt(notice.getRegDt())
-                .regId(notice.getRegId())
-                .modId(notice.getModId())
+                .regId(currentUser)
+                .modId(currentUser)
                 .build();
     }
 
@@ -72,6 +75,30 @@ public class NoticeService {
             resultMap.put("msg", "게시글 삭제 실패");
         }
         return resultMap;
+
+    }
+
+    public NoticeDto postNotice(NoticeDto noticeDto) {
+        String currentUser = UserContext.getUser(); // 현재 사용
+        Notice notice = Notice.builder()
+                .noticeTitle(noticeDto.getNoticeTitle())
+                .noticeContent(noticeDto.getNoticeContent())
+                .userId(noticeDto.getUserId())
+                .delYn("N")
+                .regId(currentUser)
+                .modId(currentUser)
+                .build();
+
+        Notice savedNotice = noticeRepository.save(notice);
+
+        return NoticeDto.builder()
+                .noticeId(savedNotice.getNoticeId())
+                .noticeTitle(savedNotice.getNoticeTitle())
+                .noticeContent(savedNotice.getNoticeContent())
+                .userId(savedNotice.getUserId())
+                .regId(savedNotice.getRegId())
+                .regDt(savedNotice.getRegDt())
+                .build();
 
     }
 }
