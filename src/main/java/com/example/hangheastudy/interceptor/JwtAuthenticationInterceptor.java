@@ -33,7 +33,7 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        String username = jwtUtil.extractUsername(token);
+        String username = jwtUtil.resolveToken(request);
         UserContext.setUser(username); // 사용자 정보 저장
 
         return true;
